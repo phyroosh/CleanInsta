@@ -27,7 +27,8 @@ javac --release 8 -cp "${ANDROID_JAR}:${BASE_DIR}/out/stubs.jar" -d "${BASE_DIR}
 
 # 3. Convert to DEX with D8
 echo "[*] Converting class files to DEX..."
-"${D8}" --output "${BASE_DIR}/out/dex/clean_classes.jar" $(find "${BASE_DIR}/out/classes" -name "*.class")
+"${D8}" --lib "${ANDROID_JAR}" --output "${BASE_DIR}/out/dex/clean_classes.jar" $(find "${BASE_DIR}/out/classes" -name "*.class")
+unzip -p "${BASE_DIR}/out/dex/clean_classes.jar" classes.dex > "${BASE_DIR}/out/dex/classes_clean19.dex"
 
 # 4. Run patcher to inject and sign
 echo "[*] Running APK patcher..."

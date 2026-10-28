@@ -32,22 +32,23 @@ public class Ai5w extends Activity {
             return;
         }
 
-        // 3. Launch official Instagram main interface
+        // 3. Launch official Instagram root InstagramMainActivity
         try {
             Intent mainIntent = new Intent();
             mainIntent.setClassName(this, "com.instagram.mainactivity.InstagramMainActivity");
-            mainIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            mainIntent.setAction(Intent.ACTION_MAIN);
+            mainIntent.addCategory(Intent.CATEGORY_LAUNCHER);
+            mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(mainIntent);
         } catch (Throwable t) {
-            Log.e(TAG, "Failed to launch InstagramMainActivity, trying LauncherActivity: " + t.getMessage());
+            Log.e(TAG, "Failed to launch InstagramMainActivity: " + t.getMessage());
             try {
                 Intent fallback = new Intent();
-                fallback.setClassName(this, "com.instagram.mainactivity.LauncherActivity");
-                fallback.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                fallback.setClassName(this, "com.instagram.mainactivity.InstagramMainActivity");
+                fallback.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(fallback);
             } catch (Throwable t2) {
                 Log.e(TAG, "Fallback launcher failed: " + t2.getMessage());
-                // Open clean settings as ultimate fallback
                 Intent settings = new Intent(this, CleanSettingsActivity.class);
                 startActivity(settings);
             }
